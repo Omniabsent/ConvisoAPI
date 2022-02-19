@@ -7,22 +7,25 @@ class VulnerabilitiesController < ApplicationController
   def create
     @vulnerability = Vulnerability.new(vulnerability_params)
     if @vulnerability.save
-      #ChangeHistory.create!
+      vulnerability_id = @vulnerability.id
+      status = @vulnerability.status
+      current_user = @user.id 
+      #ChangeHistory.create!(:current_user, :vulnerability_id, :status)
       render json: @vulnerability
     else
       render error: { error: 'Não foi possível criar a vulnerabilidade'}, status: 400
     end
   end
 
-  def update
-    if @vulnerability
-      @vulnerability.update(vulnerability_params)
-      #ChangeHistory.create!(:user_id, :vulnerability_id)
-      render json: { message: 'Vulnerabilidade atualizada'}, status: 200
-    else
-      render json: { error: 'Não foi possível atualizar a vulnerabilidade'}, status: 400
-    end
-  end
+  # def update
+  #   if @vulnerability
+  #     @vulnerability.update(vulnerability_params)
+  #     ChangeHistory.create!(:user_id, :vulnerability_id)
+  #     render json: { message: 'Vulnerabilidade atualizada'}, status: 200
+  #   else
+  #     render json: { error: 'Não foi possível atualizar a vulnerabilidade'}, status: 400
+  #   end
+  # end
 
     private
 
