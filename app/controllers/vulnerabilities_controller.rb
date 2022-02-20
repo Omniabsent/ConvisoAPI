@@ -8,9 +8,9 @@ class VulnerabilitiesController < ApplicationController
     @vulnerability = Vulnerability.new(vulnerability_params)
     if @vulnerability.save
       vulnerability_id = @vulnerability.id
-      vulnerabilty_status = @vulnerability.status
+      vulnerability_status = @vulnerability.status
       user_id = @user.id
-      ChangeHistory.create! (params = {:user_id => user_id,  :vulnerability_id => vulnerability_id, :vulnerabilty_status => vulnerabilty_status})
+      ChangeHistory.create! (params = {:user_id => user_id,  :vulnerability_id => vulnerability_id, :vulnerability_status => vulnerability_status})
       render json: @vulnerability
     else
       render error: { error: 'Não foi possível criar a vulnerabilidade'}, status: 400
