@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       token = encode_token({user_id: @user.id})
       render json: {user: @user, token: token}
     else
-      render json: {error: "Username unavailable, try another"}
+      render json: {error: "Username or email alredy in use"}
     end
   end
 
