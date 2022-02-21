@@ -1,6 +1,4 @@
 class VulnerabilitiesController < ApplicationController
-  acts_as_paranoid
-  
   def index
     @vulnerabilities = Vulnerability.all
     render json: @vulnerabilities
@@ -18,6 +16,20 @@ class VulnerabilitiesController < ApplicationController
       render error: { error: 'Não foi possível criar a vulnerabilidade'}, status: 400
     end
   end
+
+  def show
+    id = params[:id]
+    @vulnerability = Vulnerability.find(id)
+    render json: @vulnerability
+  end
+
+  def destroy
+    id = params[:id]
+    @vulnerability = Vulnerability.destroy(id)
+    render json: @vulnerability
+  end
+
+
   #
   # def update #não vai ser implementado a princípio
   #   if @vulnerability
