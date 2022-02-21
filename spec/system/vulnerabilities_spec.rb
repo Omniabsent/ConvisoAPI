@@ -3,13 +3,16 @@ require 'rails_helper'
 RSpec.describe "Vulnerabilities", type: :request do
   describe 'User logs in' do
     it 'and can see vulnerabilities list' do
-      User.create!(name: 'user', :email => 'user@teste.com', password: '123123')
 
-    #  , as: :json, headers: {:Authorization => "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.JC6qKuH9SG0SIiYSfhZUFTtirxN9Q47buLk0DPFFFzE"}
+      user = User.create!(name: 'user', :email => 'user@teste.com', password: 'password')
+      Vulnerability.create!(:name => 'Phishing', :description => 'bait', :impact_level => 'high', :solution => 'don\'t fall for bait', :status => 'identified' )
+      token = JWT.encode({user_id: user.id}, 's3cr3t')
+      get '/vulnerabilities', headers: {Authorization: "Bearer #{token}"}
 
       expect(response).to have_http_status(200)
-      #expect(JSON.parse(response.body)).to include("token")
+      expect(JSON.parse(response.body).to_s).to include("Phishing")
     end
+
 
   #   it 'and can see the details of one vulnerablity' do
   #   end
