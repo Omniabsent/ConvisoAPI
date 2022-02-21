@@ -25,8 +25,12 @@ class VulnerabilitiesController < ApplicationController
 
   def destroy
     id = params[:id]
+    user_id = @user.id
+    vulnerability_id = id
+    vulnerability_status = 4
+    ChangeHistory.create! (params = {:user_id => user_id,  :vulnerability_id => vulnerability_id, :vulnerability_status => vulnerability_status})
     @vulnerability = Vulnerability.destroy(id)
-    render json: @vulnerability
+    render json: 'Vulnerabilidade excluída, log de alteração gerado em change_history'
   end
 
 

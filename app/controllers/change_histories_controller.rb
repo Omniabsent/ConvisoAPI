@@ -8,7 +8,7 @@ class ChangeHistoriesController < ApplicationController
   def show
     id = params[:id]
     @change_history = ChangeHistory.find(id)
-    render json: {"Vulnerability name": @change_history.vulnerability.name, "Vulnerability status": @change_history.vulnerability_status, "Updated at": @change_history.updated_at, "By the user": @change_history.user.name }
+    render json: {"Vulnerability name": @change_history.vulnerability.name, "Vulnerability status": @change_history.vulnerability_status, "Modified at": @change_history.updated_at, "By the user": @change_history.user.name }
   end
 
   def create
