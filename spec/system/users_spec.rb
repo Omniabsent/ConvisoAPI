@@ -33,18 +33,5 @@ RSpec.describe "Users:", type: :request do
       expect(response).to have_http_status(400)
       expect(JSON.parse(response.body)).to eq("error" => "Invalid username or password")
     end
-
-    #usuários devem poder ver dados de outros usuários?  Provavelmente vai precisar pra ver o nome do user no log
-    # it 'and can see the list of users' do
-    # end
-    #
-    # it 'and cannot see the list of users if not logged in' do
-    # end
-    #
-    # it 'and can see details of one user' do
-    # end
-    #
-    # it 'and cannot see details of one user if not logged in' do
-    # end
   end
 end

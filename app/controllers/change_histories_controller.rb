@@ -1,5 +1,4 @@
 class ChangeHistoriesController < ApplicationController
-  #before_action :authenticate_user!
 
   def index
     @change_histories = ChangeHistory.all
@@ -9,7 +8,7 @@ class ChangeHistoriesController < ApplicationController
   def show
     id = params[:id]
     @change_history = ChangeHistory.find(id)
-    render json: @change_history
+    render json: {"Vulnerability name": @change_history.vulnerability.name, "Vulnerability status": @change_history.vulnerability_status, "Updated at": @change_history.updated_at, "By the user": @change_history.user.name }
   end
 
   def create

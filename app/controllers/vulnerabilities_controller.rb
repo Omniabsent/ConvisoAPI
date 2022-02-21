@@ -1,4 +1,6 @@
 class VulnerabilitiesController < ApplicationController
+  acts_as_paranoid
+  
   def index
     @vulnerabilities = Vulnerability.all
     render json: @vulnerabilities
@@ -16,11 +18,14 @@ class VulnerabilitiesController < ApplicationController
       render error: { error: 'Não foi possível criar a vulnerabilidade'}, status: 400
     end
   end
-
-  # def update
+  #
+  # def update #não vai ser implementado a princípio
   #   if @vulnerability
   #     @vulnerability.update(vulnerability_params)
-  #     ChangeHistory.create!(:user_id, :vulnerability_id)
+  #     vulnerability_id = @vulnerability.id
+  #     vulnerability_status = @vulnerability.status
+  #     user_id = @user.id
+  #     ChangeHistory.create! (params = {:user_id => user_id,  :vulnerability_id => vulnerability_id, :vulnerability_status => vulnerability_status})
   #     render json: { message: 'Vulnerabilidade atualizada'}, status: 200
   #   else
   #     render json: { error: 'Não foi possível atualizar a vulnerabilidade'}, status: 400
