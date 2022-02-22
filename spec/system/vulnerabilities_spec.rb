@@ -12,6 +12,18 @@ RSpec.describe "Vulnerabilities", type: :request do
       expect(response.body).to include("Phishing")
     end
 
+    it 'and can see a specific vulnerability' do
+      user = User.create!(name: 'user', :email => 'user@teste.com', password: 'password')
+      vulnerability1 = Vulnerability.create!(:name => 'Phishing', :description => 'bait', :impact_level => 'high', :solution => 'don\'t fall for bait', :status => 'identified' )
+      vulnerability2 = Vulnerability.create!(:name => 'Phishing 2', :description => 'this is another bait', :impact_level => 'medium', :solution => 'don\'t fall for bait again', :status => 'identified' )
+      token = JWT.encode({user_id: user.id}, 's3cr3t')
+      get "/vulnerabilities/#{vulnerability2.id}", headers: {Authorization: "Bearer #{token}"}
+
+      expect(response).to have_http_status(200)
+      expect(response.body).to_not include("high")
+      expect(response.body).to include("Phishing 2")
+    end
+
     it 'and can create new vulnerability' do
       user = User.create!(name: 'user', :email => 'user@teste.com', password: 'password')
       token = JWT.encode({user_id: user.id}, 's3cr3t')
@@ -38,6 +50,17 @@ RSpec.describe "Vulnerabilities", type: :request do
 
       expect(response).to have_http_status(401)
       expect(response.body).to_not include("Phishing")
+      expect(response.body).to include("Please log in")
+    end
+
+    it 'and cannot see a specific vulnerability if not logged in' do
+      user = User.create!(name: 'user', :email => 'user@teste.com', password: 'password')
+      vulnerability1 = Vulnerability.create!(:name => 'Phishing', :description => 'bait', :impact_level => 'high', :solution => 'don\'t fall for bait', :status => 'identified' )
+      vulnerability2 = Vulnerability.create!(:name => 'Phishing 2', :description => 'this is another bait', :impact_level => 'medium', :solution => 'don\'t fall for bait again', :status => 'identified' )
+      get "/vulnerabilities/#{vulnerability2.id}"
+
+      expect(response).to have_http_status(401)
+      expect(response.body).to_not include("Phishing 2")
       expect(response.body).to include("Please log in")
     end
 
