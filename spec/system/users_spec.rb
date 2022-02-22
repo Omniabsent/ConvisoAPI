@@ -7,7 +7,6 @@ RSpec.describe "Users:", type: :request do
 
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body)).to include("token")
-
     end
 
     it 'using an username already taken' do
